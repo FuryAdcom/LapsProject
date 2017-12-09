@@ -13,6 +13,7 @@ public class Tablero extends Stage {
     private Random numero;
     Casilla casilla;
     FichaRotatoria toThrow;
+    FichaProxima next;
 
     public Tablero(Viewport viewport, int dimension_casilla) {
         super(viewport);
@@ -20,10 +21,19 @@ public class Tablero extends Stage {
         casilla.addToStage(this);
         numero = new Random();
 
+        //Rotatoria
         float lado_ficha = casilla.getLado_casilla();
         int valor = numero.nextInt(2)+1;
         toThrow = new FichaRotatoria(casilla.getX() - 100, casilla.getY() - 100, valor, lado_ficha);
         this.addActor(toThrow);
+        //Proxima
+        valor = numero.nextInt(4)+1;
+        next = new FichaProxima(casilla.getX() - 4.5f, casilla.getY() + 6 , valor, lado_ficha);
+        this.addActor(next);
+    }
+
+    public FichaProxima getNext(){
+        return next;
     }
 
     public FichaRotatoria getToThrow() {

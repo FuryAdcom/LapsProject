@@ -38,57 +38,53 @@ public class Casilla extends Actor {
 
         //Central
         int ficha_value = random.nextInt(4)+1;
-        FichaTablero ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha, false);
+        FichaTablero ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha);
         fichas.add(ficha);
         //First Tier
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove, yMove + 1 , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove, yMove + 1 , ficha_value, lado_ficha);
         fichas.add(ficha);
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove + 0.9f, yMove + 0.5f , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 0.9f, yMove + 0.5f , ficha_value, lado_ficha);
         fichas.add(ficha);
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove + 0.9f, yMove - 0.5f , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 0.9f, yMove - 0.5f , ficha_value, lado_ficha);
         fichas.add(ficha);
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove, yMove - 1 , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove, yMove - 1 , ficha_value, lado_ficha);
         fichas.add(ficha);
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove - 0.9f, yMove - 0.5f , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 0.9f, yMove - 0.5f , ficha_value, lado_ficha);
         fichas.add(ficha);
         ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove - 0.9f, yMove + 0.5f , ficha_value, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 0.9f, yMove + 0.5f , ficha_value, lado_ficha);
         fichas.add(ficha);
         //Second Tier
-        ficha = new FichaTablero(xMove, yMove + 2 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove, yMove + 2 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 0.9f, yMove + 1.5f , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 1f, yMove + 1.7f , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1.8f, yMove + 1 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 1.8f, yMove + 1 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1.8f, yMove, 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 2f, yMove, 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1.8f, yMove - 1 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 1.8f, yMove - 1 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 0.9f, yMove - 1.5f , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove + 1f, yMove - 1.7f , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove, yMove - 2 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove, yMove - 2 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 0.9f, yMove - 1.5f , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 1f, yMove - 1.7f , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1.8f, yMove - 1 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 1.8f, yMove - 1 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1.8f, yMove, 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 2f, yMove, 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1.8f, yMove + 1 , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 1.8f, yMove + 1 , 0, lado_ficha);
         fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 0.9f, yMove + 1.5f , 0, lado_ficha, false);
+        ficha = new FichaTablero(xMove - 1f, yMove + 1.7f , 0, lado_ficha);
         fichas.add(ficha);
 
-        //Proxima ficha
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove - 4.5f, yMove + 6 , ficha_value, lado_ficha, true);
-        fichas.add(ficha);
     }
 
     public void addToStage(Stage stage) {

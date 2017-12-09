@@ -64,11 +64,14 @@ public class FichaRotatoria extends Actor {
         return new Vector2(getX(),getY());
     }
 
-    public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas) {
+
+
+    public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
 
         final Vector2 posInicial = throwingCas.getPosition();
         Vector2 targetPos = targetCas.getPosition();
         ThrowAction throwAction = new ThrowAction(targetPos);
+        //JoinAction joinAction;
         throwAction.setSpeed(CONSTANTES.THROW_SPEED);
 
         //Se posiciona y lanza la ficha, cambiando el valor del target
@@ -82,12 +85,15 @@ public class FichaRotatoria extends Actor {
                 return true;
             }
         });
+      //  joinAction = new JoinAction(targetCas);
+      //  sequenceAction.addAction(joinAction);
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
                 //Delegar valor de ficha proxima
-                int index = FichaTablero.getProxima();
-                throwingCas.changeValue(index);
+                throwingCas.changeValue(nextCas.value);
+                int index = random.nextInt(7)+1;
+                nextCas.changeValue(index);
                 throwingCas.setPosition(posInicial.x, posInicial.y);
                 //Devolvemos el focus al Stage para poder colocar otra Casilla
                 Gdx.input.setInputProcessor(targetCas.getStage());
