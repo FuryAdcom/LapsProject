@@ -18,9 +18,8 @@ public class Casilla extends Actor {
     private float lado;
     private float lado_ficha;
     TextureRegion casilla_border;
-    private double angulo = Math.toRadians(90);
-    private double base = Math.toRadians(90)+(Math.toRadians(60)*6);
-    private double sesenta = Math.toRadians(60);
+    private double angulo = 90;
+    private double anguloSecundario = 60;
 
     public Casilla(int cantidadfichas) {
         casilla_border = Laps.circles.findRegion("table_cell");
@@ -34,16 +33,13 @@ public class Casilla extends Actor {
 
     private void crearFichas(int dimension) {
         //Crea y llena la lista de Fichas que pertenecen al tablero.
-
         fichas = new ArrayList<FichaTablero>();
         float xMove = this.getX();
         float yMove = this.getY();
-
         int cantidad = 0;
         float radius = 0;
         int ficha_value;
         FichaTablero ficha;
-
         for (int i = 0; i < dimension; i++) {
             if(i == 0){
                 //Central
@@ -51,21 +47,19 @@ public class Casilla extends Actor {
                 ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha);
                 fichas.add(ficha);
             }else{
-                cantidad += 3*(Math.pow(2, dimension-i));
+                cantidad += 6*(dimension-i);
+                System.out.print("Here "+cantidad);
             }
         }
-
-        for (int i = 1; i < 8; i++) {
-            if ((angulo == Math.toRadians(90)) || (angulo >= base)) {
-                System.out.print("Power=" + Math.toRadians(450));
-                angulo = Math.toRadians(90);
-                sesenta = Math.toRadians(60);
+        for (int i = 0; i < cantidad; i++) {
+            if ((angulo == 90) || angulo >= 450) {
+                angulo = 90;
+                anguloSecundario = 60;
                 radius++;
-                sesenta = sesenta/radius;
-                double x = xMove + (radius * Math.cos(angulo));
-                double y = yMove + (radius * Math.sin(angulo));
-
-                if(i <= 6) {
+                anguloSecundario = anguloSecundario/radius;
+                double x = xMove + (radius * Math.cos(Math.toRadians(angulo)));
+                double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
+                if(i <= 5) {
                     ficha_value = random.nextInt(4) + 1;
                     ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
                     fichas.add(ficha);
@@ -73,13 +67,11 @@ public class Casilla extends Actor {
                     ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
                     fichas.add(ficha);
                 }
-                angulo += sesenta;
+                angulo += anguloSecundario;
             }else{
-                System.out.print("Power=" + angulo);
-                double x = xMove + (radius * Math.cos(angulo));
-                double y = yMove + (radius * Math.sin(angulo));
-
-                if(i <= 6) {
+                double x = xMove + (radius * Math.cos(Math.toRadians(angulo)));
+                double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
+                if(i <= 5) {
                     ficha_value = random.nextInt(4) + 1;
                     ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
                     fichas.add(ficha);
@@ -87,7 +79,7 @@ public class Casilla extends Actor {
                     ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
                     fichas.add(ficha);
                 }
-                angulo += sesenta;
+                angulo += anguloSecundario;
             }
         }
     }
