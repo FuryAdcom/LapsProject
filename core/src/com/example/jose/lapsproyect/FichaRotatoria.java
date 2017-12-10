@@ -24,7 +24,7 @@ public class FichaRotatoria extends Actor {
 
     private float lugarX;
     private float lugarY;
-    private double angulo = Math.toRadians(90);
+    private double angulo = Math.toRadians(45);
 
     public FichaRotatoria(float x, float y, int value, float lado) {
         random = new Random();
@@ -39,15 +39,15 @@ public class FichaRotatoria extends Actor {
     public void draw(Batch batch, float parentAlpha) {
             if (angulo >= (2 * Math.PI)) {
                 angulo = 0.0f;
-                double x = 4.5f - (3.5f * Math.cos(2 * angulo));
-                double y = 7.5f - (3.5f * Math.sin(2 * angulo));
+                double x = 4.5f - (3.5f * Math.cos(2*angulo));
+                double y = 7.5f - (3.5f * Math.sin(2*angulo));
                 lugarX = (float)x;
                 lugarY = (float)y;
                 batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());
             } else {
+                double x = 4.5f - (3.5f * Math.cos(2*angulo));
+                double y = 7.5f - (3.5f * Math.sin(2*angulo));
                 angulo -= 0.0174533f;
-                double x = 4.5f - (3.5f * Math.cos(2 * angulo));
-                double y = 7.5f - (3.5f * Math.sin(2 * angulo));
                 lugarX = (float)x;
                 lugarY = (float)y;
                 batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());

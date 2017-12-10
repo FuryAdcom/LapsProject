@@ -18,6 +18,9 @@ public class Casilla extends Actor {
     private float lado;
     private float lado_ficha;
     TextureRegion casilla_border;
+    private double angulo = Math.toRadians(90);
+    private double base = Math.toRadians(90)+(Math.toRadians(60)*6);
+    private double sesenta = Math.toRadians(60);
 
     public Casilla(int cantidadfichas) {
         casilla_border = Laps.circles.findRegion("table_cell");
@@ -26,65 +29,67 @@ public class Casilla extends Actor {
         this.lado_ficha = lado/cantidadfichas;
         random = new Random();
         this.setTouchable(Touchable.enabled);
-        crearFichas();
+        crearFichas(CONSTANTES.DIMENSION);
     }
 
-    private void crearFichas() {
+    private void crearFichas(int dimension) {
         //Crea y llena la lista de Fichas que pertenecen al tablero.
 
         fichas = new ArrayList<FichaTablero>();
         float xMove = this.getX();
         float yMove = this.getY();
 
-        //Central
-        int ficha_value = random.nextInt(4)+1;
-        FichaTablero ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha);
-        fichas.add(ficha);
-        //First Tier
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove, yMove + 1 , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove + 0.9f, yMove + 0.5f , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove + 0.9f, yMove - 0.5f , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove, yMove - 1 , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove - 0.9f, yMove - 0.5f , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        ficha_value = random.nextInt(4)+1;
-        ficha = new FichaTablero(xMove - 0.9f, yMove + 0.5f , ficha_value, lado_ficha);
-        fichas.add(ficha);
-        //Second Tier
-        ficha = new FichaTablero(xMove, yMove + 2 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1f, yMove + 1.7f , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1.8f, yMove + 1 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 2f, yMove, 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1.8f, yMove - 1 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove + 1f, yMove - 1.7f , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove, yMove - 2 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1f, yMove - 1.7f , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1.8f, yMove - 1 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 2f, yMove, 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1.8f, yMove + 1 , 0, lado_ficha);
-        fichas.add(ficha);
-        ficha = new FichaTablero(xMove - 1f, yMove + 1.7f , 0, lado_ficha);
-        fichas.add(ficha);
+        int cantidad = 0;
+        float radius = 0;
+        int ficha_value;
+        FichaTablero ficha;
 
+        for (int i = 0; i < dimension; i++) {
+            if(i == 0){
+                //Central
+                ficha_value = random.nextInt(4)+1;
+                ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha);
+                fichas.add(ficha);
+            }else{
+                cantidad += 3*(Math.pow(2, dimension-i));
+            }
+        }
+
+        for (int i = 1; i < 8; i++) {
+            if ((angulo == Math.toRadians(90)) || (angulo >= base)) {
+                System.out.print("Power=" + Math.toRadians(450));
+                angulo = Math.toRadians(90);
+                sesenta = Math.toRadians(60);
+                radius++;
+                sesenta = sesenta/radius;
+                double x = xMove + (radius * Math.cos(angulo));
+                double y = yMove + (radius * Math.sin(angulo));
+
+                if(i <= 6) {
+                    ficha_value = random.nextInt(4) + 1;
+                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
+                    fichas.add(ficha);
+                }else {
+                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
+                    fichas.add(ficha);
+                }
+                angulo += sesenta;
+            }else{
+                System.out.print("Power=" + angulo);
+                double x = xMove + (radius * Math.cos(angulo));
+                double y = yMove + (radius * Math.sin(angulo));
+
+                if(i <= 6) {
+                    ficha_value = random.nextInt(4) + 1;
+                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
+                    fichas.add(ficha);
+                }else {
+                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
+                    fichas.add(ficha);
+                }
+                angulo += sesenta;
+            }
+        }
     }
 
     public void addToStage(Stage stage) {
