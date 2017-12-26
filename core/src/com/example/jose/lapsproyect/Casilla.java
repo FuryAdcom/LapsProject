@@ -73,7 +73,7 @@ public class Casilla extends Actor {
                 double x = xMove + (radius * Math.cos(Math.toRadians(angulo)));
                 double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
                 if(i <= 5) {
-                    ficha_value = random.nextInt(4) + 1;
+                    ficha_value = random.nextInt(4);
                     ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
                     fichas.add(ficha);
                 }else {
@@ -85,7 +85,7 @@ public class Casilla extends Actor {
         }
     }
 
-    public FichaTablero calcularCasillaVacia(FichaRotatoria lanzada){
+    public FichaTablero calcularCasillaVacia(FichaRotatoria lanzada, double distance){
         FichaTablero ficha = fichas.get(0);
         double xCentral = fichas.get(0).getPosition().x;
         double yCentral = fichas.get(0).getPosition().y;
@@ -94,8 +94,10 @@ public class Casilla extends Actor {
         for (FichaTablero f: fichas) {
             double x = f.getPosition().x;
             double y = f.getPosition().y;
-            if(Math.sqrt(Math.pow(lanzada.getX() - x, 2)+(Math.pow(lanzada.getY() - y, 2))) <= distCentral){
+            double distFicha = Math.sqrt(Math.pow(lanzada.getX() - x, 2)+(Math.pow(lanzada.getY() - y, 2)));
+            if(distFicha < distCentral && distFicha < distance){
                 ficha = f;
+                distance = distFicha;
             }
         }
         return ficha;
