@@ -30,6 +30,7 @@ public class FichaTablero extends Actor {
 
         this.setBounds(x,y,lado,lado);
 
+        //TODO: Modificar el Listener para funcionar en cualquier parte de la pantalla
         this.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

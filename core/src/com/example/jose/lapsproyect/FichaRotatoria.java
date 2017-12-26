@@ -24,7 +24,7 @@ public class FichaRotatoria extends Actor {
 
     private float lugarX;
     private float lugarY;
-    private double angulo = Math.toRadians(45);
+    private double angulo = -90;
 
     public FichaRotatoria(float x, float y, int value, float lado) {
         random = new Random();
@@ -33,26 +33,6 @@ public class FichaRotatoria extends Actor {
         graphic = Laps.circles.findRegion(String.valueOf(value));
 
         this.setBounds(x,y,lado,lado);
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-            if (angulo >= (2 * Math.PI)) {
-                angulo = 0.0f;
-                double x = 4.5f - (3.5f * Math.cos(2*angulo));
-                double y = 7.5f - (3.5f * Math.sin(2*angulo));
-                lugarX = (float)x;
-                lugarY = (float)y;
-                batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());
-            } else {
-                double x = 4.5f - (3.5f * Math.cos(2*angulo));
-                double y = 7.5f - (3.5f * Math.sin(2*angulo));
-                angulo -= 0.0174533f;
-                lugarX = (float)x;
-                lugarY = (float)y;
-                batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());
-            }
-        batch.draw(graphic, this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
     public void changeValue(int newValue) {
@@ -64,10 +44,30 @@ public class FichaRotatoria extends Actor {
         return new Vector2(getX(),getY());
     }
 
-
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        if(this.getPosition().x < -60) {
+            if (Math.toRadians(angulo) <= Math.toRadians(-450)) {
+                angulo = -90;
+                double x = 4f - (3.5f * Math.cos(Math.toRadians(angulo)));
+                double y = 4.5f - (3.5f * Math.sin(Math.toRadians(angulo)));
+                lugarX = (float) x;
+                lugarY = (float) y;
+                batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());
+            } else{
+                double x = 4f - (3.5f * Math.cos(Math.toRadians(angulo)));
+                double y = 4.5f - (3.5f * Math.sin(Math.toRadians(angulo)));
+                angulo -= 2;
+                lugarX = (float) x;
+                lugarY = (float) y;
+                batch.draw(graphic, (float) x, (float) y, this.getWidth(), this.getHeight());
+            }
+        }else {
+            batch.draw(graphic, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        }
+    }
 
     public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
-
         final Vector2 posInicial = throwingCas.getPosition();
         Vector2 targetPos = targetCas.getPosition();
         ThrowAction throwAction = new ThrowAction(targetPos);
@@ -85,8 +85,8 @@ public class FichaRotatoria extends Actor {
                 return true;
             }
         });
-      //  joinAction = new JoinAction(targetCas);
-      //  sequenceAction.addAction(joinAction);
+        //  joinAction = new JoinAction(targetCas);
+        //  sequenceAction.addAction(joinAction);
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
@@ -103,5 +103,4 @@ public class FichaRotatoria extends Actor {
 
         this.addAction(sequenceAction);
     }
-
 }

@@ -5,9 +5,9 @@ package com.example.jose.lapsproyect;
  */
 
 public class CONSTANTES {
-    public static final float ANCHO = 10f;
-    public static final float LARGO = 19f;
+    public static final float ANCHO = 9f;
+    public static final float LARGO = 16f;
     public static final float PADDING = ANCHO/10;
-    public static final float THROW_SPEED = 30f;
-    public static final int DIMENSION = 4;
+    public static final float THROW_SPEED = 10f;
+    public static final int DIMENSION = 3;
 }

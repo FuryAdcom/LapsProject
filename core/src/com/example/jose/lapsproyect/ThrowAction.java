@@ -32,14 +32,6 @@ public class ThrowAction extends MoveToAction {
             return distancia_mod / speed;
         }
 
-        //TODO: Arreglar tiempo cuando no se tiene posicion del actor
-        /* A veces no se tiene referencia de un actor en pleno movimiento
-         * como lo manejamos actualmente, devolveria 0 de tiempo por lo que
-         * saltaria inmediatamente.
-         *
-         * Este error probablemente no suceda en el uso normal del juego porque
-         * solo se ejecutara una vez el movimiento por Casilla.
-         */
         return 0f;
     }
 

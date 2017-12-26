@@ -13,19 +13,17 @@ import java.util.ArrayList;
 public class JoinAction extends MoveToAction {
     private ArrayList<FichaTablero> fichas;
     private float Speed;
+    private double angulo = 90;
 
     public JoinAction(FichaTablero targetCas) {
         super();
-        this.getResto(targetCas);
+        this.getResto(targetCas ,targetCas, null, null);
     }
 
-    private void getResto(FichaTablero ficha) {
+    private void getResto(FichaTablero ficha, FichaTablero inicial, FichaTablero siguiente, FichaTablero anterior) {
+        if(siguiente != inicial && siguiente != anterior){
 
-    }
-
-    private boolean par(int num){
-        int comp = num;
-        return comp % 2 == 0;
+        }
     }
 
     private float calculateTime(float speed) {

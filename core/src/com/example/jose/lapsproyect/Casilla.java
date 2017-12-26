@@ -24,7 +24,7 @@ public class Casilla extends Actor {
     public Casilla(int cantidadfichas) {
         casilla_border = Laps.circles.findRegion("table_cell");
         lado = CONSTANTES.ANCHO - 2*CONSTANTES.PADDING;
-        this.setBounds(CONSTANTES.PADDING + 3.5f,(CONSTANTES.LARGO - lado)/2 + 2, lado, lado);
+        this.setBounds((CONSTANTES.ANCHO/2)-0.5f,(CONSTANTES.LARGO - lado)/2, lado, lado);
         this.lado_ficha = lado/cantidadfichas;
         random = new Random();
         this.setTouchable(Touchable.enabled);
@@ -48,11 +48,10 @@ public class Casilla extends Actor {
                 fichas.add(ficha);
             }else{
                 cantidad += 6*(dimension-i);
-                System.out.print("Here "+cantidad);
             }
         }
         for (int i = 0; i < cantidad; i++) {
-            if ((angulo == 90) || angulo >= 450) {
+            if ((angulo == 90) || angulo == 450) {
                 angulo = 90;
                 anguloSecundario = 60;
                 radius++;
