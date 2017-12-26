@@ -41,7 +41,7 @@ public class Laps extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.5f,0.5f,0.5f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(back, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(back, 0 , 0, Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight()+1);
 		batch.end();
 		tablero.act();
 		tablero.draw();

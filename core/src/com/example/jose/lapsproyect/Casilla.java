@@ -1,6 +1,7 @@
 package com.example.jose.lapsproyect;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -13,7 +14,7 @@ import java.util.Random;
  */
 
 public class Casilla extends Actor {
-    private ArrayList<FichaTablero> fichas;
+    protected ArrayList<FichaTablero> fichas;
     private Random random;
     private float lado;
     private float lado_ficha;
@@ -21,14 +22,15 @@ public class Casilla extends Actor {
     private double angulo = 90;
     private double anguloSecundario = 60;
 
-    public Casilla(int cantidadfichas) {
+    public Casilla(int dimension) {
         casilla_border = Laps.circles.findRegion("table_cell");
         lado = CONSTANTES.ANCHO - 2*CONSTANTES.PADDING;
         this.setBounds((CONSTANTES.ANCHO/2)-0.5f,(CONSTANTES.LARGO - lado)/2, lado, lado);
-        this.lado_ficha = lado/cantidadfichas;
+        this.lado_ficha = lado/dimension;
         random = new Random();
         this.setTouchable(Touchable.enabled);
         crearFichas(CONSTANTES.DIMENSION);
+
     }
 
     private void crearFichas(int dimension) {

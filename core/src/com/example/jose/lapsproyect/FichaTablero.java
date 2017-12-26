@@ -29,22 +29,6 @@ public class FichaTablero extends Actor {
         graphic = Laps.circles.findRegion(String.valueOf(value));
 
         this.setBounds(x,y,lado,lado);
-
-        //TODO: Modificar el Listener para funcionar en cualquier parte de la pantalla
-        this.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                Tablero stage = (Tablero) FichaTablero.this.getStage();
-                FichaRotatoria lanzada = stage.getToThrow();
-                FichaProxima prox = stage.getNext();
-
-                lanzada.disparar(FichaTablero.this, lanzada, prox);
-                //Perdemos el focus intencionalmente para no permitir cambio de direcciones
-                Gdx.input.setInputProcessor(new InputAdapter());
-                return true;
-            }
-        });
     }
 
     public Vector2 getPosition() {
