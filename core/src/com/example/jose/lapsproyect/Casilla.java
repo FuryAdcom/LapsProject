@@ -85,6 +85,22 @@ public class Casilla extends Actor {
         }
     }
 
+    public FichaTablero calcularCasillaVacia(FichaRotatoria lanzada){
+        FichaTablero ficha = fichas.get(0);
+        double xCentral = fichas.get(0).getPosition().x;
+        double yCentral = fichas.get(0).getPosition().y;
+        double distCentral = Math.sqrt(Math.pow(lanzada.getX() - xCentral, 2)+(Math.pow(lanzada.getY() - yCentral, 2)));
+
+        for (FichaTablero f: fichas) {
+            double x = f.getPosition().x;
+            double y = f.getPosition().y;
+            if(Math.sqrt(Math.pow(lanzada.getX() - x, 2)+(Math.pow(lanzada.getY() - y, 2))) <= distCentral){
+                ficha = f;
+            }
+        }
+        return ficha;
+    }
+
     public void addToStage(Stage stage) {
         stage.addActor(this);
         for (FichaTablero c: fichas) {

@@ -21,7 +21,6 @@ public class Tablero extends Stage{
     Casilla casilla;
     FichaRotatoria toThrow;
     FichaProxima next;
-    FichaTablero ficha;
 
     public Tablero(Viewport viewport, int dimension_casilla) {
         super(viewport);
@@ -46,29 +45,12 @@ public class Tablero extends Stage{
                 next = getNext();
 
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
-                toThrow.disparar(calcularCasillaVacia(toThrow), toThrow, next);
+                toThrow.disparar(casilla.calcularCasillaVacia(toThrow), toThrow, next);
                 //Perdemos el focus intencionalmente para no permitir cambio de direcciones
                 Gdx.input.setInputProcessor(new InputAdapter());
                 return true;
             }
         }));
-    }
-
-    public FichaTablero calcularCasillaVacia(FichaRotatoria lanzada){
-        double xCentral = casilla.fichas.get(0).getPosition().x;
-        double yCentral = casilla.fichas.get(0).getPosition().y;
-        double distCentral = Math.sqrt(Math.pow(lanzada.getX() - xCentral, 2)+(Math.pow(lanzada.getY() - yCentral, 2)));
-        System.out.println();
-        System.out.print(xCentral + "/" + yCentral);
-
-        for (FichaTablero f: casilla.fichas) {
-            double x = f.getPosition().x;
-            double y = f.getPosition().y;
-            if(Math.sqrt(Math.pow(lanzada.getX() - x, 2)+(Math.pow(lanzada.getY() - y, 2))) < distCentral && f.value == 0){
-                ficha = f;
-            }
-        }
-        return ficha;
     }
 
     public FichaProxima getNext(){

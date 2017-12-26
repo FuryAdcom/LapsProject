@@ -47,16 +47,16 @@ public class FichaRotatoria extends Actor {
             if (Math.toRadians(angulo) <= Math.toRadians(-450)) {
                 angulo = -90;
                 double x = 4f - (3.5f * Math.cos(Math.toRadians(angulo)));
-                double y = 4.5f - (3.5f * Math.sin(Math.toRadians(angulo)));
+                double y = 4.4f - (3.5f * Math.sin(Math.toRadians(angulo)));
                 lugarX = (float) x;
                 lugarY = (float) y;
                 batch.draw(graphic, lugarX, lugarY, this.getWidth(), this.getHeight());
             } else{
                 double x = 4f - (3.5f * Math.cos(Math.toRadians(angulo)));
-                double y = 4.5f - (3.5f * Math.sin(Math.toRadians(angulo)));
-                angulo -= 2;
+                double y = 4.4f - (3.5f * Math.sin(Math.toRadians(angulo)));
                 lugarX = (float) x;
                 lugarY = (float) y;
+                angulo -= 2;
                 batch.draw(graphic, lugarX, lugarY, this.getWidth(), this.getHeight());
             }
         }else {
@@ -65,14 +65,12 @@ public class FichaRotatoria extends Actor {
     }
 
     public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
-        //final Vector2 posInicial = throwingCas.getPosition();
         Vector2 targetPos = targetCas.getPosition();
         ThrowAction throwAction = new ThrowAction(targetPos);
         //JoinAction joinAction;
         throwAction.setSpeed(CONSTANTES.THROW_SPEED);
 
         //Se posiciona y lanza la ficha, cambiando el valor del target
-        //throwingCas.setPosition(lugarX, lugarY);
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(throwAction);
         sequenceAction.addAction(new Action() {
