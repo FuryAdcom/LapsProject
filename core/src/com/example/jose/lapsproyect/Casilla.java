@@ -73,7 +73,7 @@ public class Casilla extends Actor {
                 double x = xMove + (radius * Math.cos(Math.toRadians(angulo)));
                 double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
                 if(i <= 5) {
-                    ficha_value = random.nextInt(4);
+                    ficha_value = random.nextInt(4) + 1;
                     ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
                     fichas.add(ficha);
                 }else {
