@@ -98,6 +98,8 @@ public class Casilla extends Actor {
             if(distFicha < distCentral && distFicha < distance){
                 ficha = f;
                 distance = distFicha;
+            }else if(distFicha < distCentral && distFicha > distance && ficha.value == 0){
+                return ficha;
             }
         }
         return ficha;
