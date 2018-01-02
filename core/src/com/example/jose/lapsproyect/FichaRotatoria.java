@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -15,9 +16,11 @@ import java.util.Random;
  */
 
 public class FichaRotatoria extends Actor {
-    private int value;
+    public int value;
     private TextureRegion graphic;
     private Random random;
+
+    public FichaTablero primera;
 
     protected float lugarX;
     protected float lugarY;
@@ -65,9 +68,9 @@ public class FichaRotatoria extends Actor {
     }
 
     public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
+        primera = targetCas;
         Vector2 targetPos = targetCas.getPosition();
         ThrowAction throwAction = new ThrowAction(targetPos);
-        //JoinAction joinAction;
         throwAction.setSpeed(CONSTANTES.THROW_SPEED);
 
         //Se posiciona y lanza la ficha, cambiando el valor del target
@@ -76,12 +79,12 @@ public class FichaRotatoria extends Actor {
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                targetCas.changeValue(throwingCas.value);
+                if(targetCas.value == 0) {
+                    targetCas.changeValue(throwingCas.value);
+                }
                 return true;
             }
         });
-        //  joinAction = new JoinAction(targetCas);
-        //  sequenceAction.addAction(joinAction);
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
@@ -95,7 +98,6 @@ public class FichaRotatoria extends Actor {
                 return true;
             }
         });
-
         this.addAction(sequenceAction);
     }
 }

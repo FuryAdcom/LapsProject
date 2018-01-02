@@ -46,6 +46,7 @@ public class Tablero extends Stage{
 
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
                 toThrow.disparar(casilla.calcularCasillaVacia(toThrow, 100), toThrow, next);
+                //toThrow.primera.unir(casilla.fichas, toThrow.primera, toThrow.primera);
                 //Perdemos el focus intencionalmente para no permitir cambio de direcciones
                 Gdx.input.setInputProcessor(new InputAdapter());
                 return true;
