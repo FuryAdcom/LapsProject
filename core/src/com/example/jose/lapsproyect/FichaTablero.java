@@ -20,10 +20,9 @@ import javax.xml.bind.Unmarshaller;
  */
 
 public class FichaTablero extends Actor {
+    ArrayList<FichaTablero> vecinas;
     protected int value;
     private TextureRegion graphic;
-    
-    public ArrayList<FichaTablero> vecinas;
 
     public FichaTablero(float x, float y, int value, float lado) {
         this.value = value;
@@ -46,5 +45,7 @@ public class FichaTablero extends Actor {
         this.value = newValue;
         this.graphic = Laps.circles.findRegion(String.valueOf(value));
     }
+
+   /* unir*/
 
 }
