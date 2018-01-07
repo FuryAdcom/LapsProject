@@ -1,10 +1,13 @@
 package com.example.jose.lapsproyect;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -83,13 +86,11 @@ public class Casilla extends Actor {
                 angulo += anguloSecundario;
             }
         }
-        vecindad(fichas);
     }
 
-    public void vecindad(ArrayList<FichaTablero> fichas){
+    public void vecindad(int dimension){
         double distancia = 1.3;
         for(FichaTablero f: fichas){
-            f.vista = false;
             double x = f.getPosition().x;
             double y = f.getPosition().y;
             ArrayList<FichaTablero> vecinas = new ArrayList<FichaTablero>();
@@ -103,7 +104,81 @@ public class Casilla extends Actor {
                 }
             }
         }
+        haciaCentro(dimension);
     }
+
+    public void haciaCentro(int dimension) {
+        int limite = dimension-1;
+        for (FichaTablero f : fichas) {
+            double distancia = 100;
+            FichaTablero central = fichas.get(0);
+            double xCentral = central.getPosition().x;
+            double yCentral = central.getPosition().y;
+            double distCentral = Math.sqrt(Math.pow(f.getPosition().x - xCentral, 2) + (Math.pow(f.getPosition().y - yCentral, 2)));
+            ArrayList<FichaTablero> centradas = new ArrayList<FichaTablero>();
+            f.centradas = centradas;
+            for (FichaTablero one : fichas) {
+                if (fichas.indexOf(one) < fichas.indexOf(f) && limite > 0) {
+                    double x = one.getPosition().x;
+                    double y = one.getPosition().y;
+                    double distFicha = Math.sqrt(Math.pow(f.getPosition().x - x, 2) + (Math.pow(f.getPosition().y - y, 2)));
+                    if (distFicha > 0 && fichas.indexOf(f) < 7) {
+                        centradas.add(central);
+                    } else {
+                        if (centradas.isEmpty()) {
+                            centradas.add(central);
+                            central = one;
+                            distancia = distFicha;
+                            limite--;
+                        } else if (distFicha > 0 && distFicha <= distCentral && distFicha < distancia) {
+                            central = one;
+                            distancia = distFicha;
+                        } else if (distFicha > 0 && distFicha <= distCentral && distFicha >= distancia) {
+                            if(distFicha < distancia+0.0000001) {
+                                centradas.add(central);
+                                centradas.add(fichas.get(fichas.indexOf(one)));
+                                limite--;
+                            }else if(distFicha+0.0000001 > Math.sqrt(Math.pow(f.getPosition().x - fichas.get(fichas.indexOf(one)+1).getPosition().x, 2) + (Math.pow(f.getPosition().y - fichas.get(fichas.indexOf(one)+1).getPosition().y, 2)))){
+                                centradas.add(fichas.get(fichas.indexOf(central)-1));
+                                centradas.add(central);
+                                limite--;
+                            }else{
+                                centradas.add(central);
+                                limite--;
+                            }
+                        }
+                    }
+                }
+            }
+            limite = dimension-1;
+        }
+    }
+
+    public void ordenarAlCentro(final FichaTablero lanzada, final int dimension) {
+        boolean cambiada = false;
+        vecindad(dimension);
+        for (FichaTablero c : lanzada.centradas) {
+            if (c.value == 0 && !cambiada) {
+                lanzada.alCentro(c, lanzada);
+                cambiada = true;
+                vecindad(dimension);
+            }
+        }
+        cambiada = false;
+        for (FichaTablero f : fichas) {
+            if(f.value != 0) {
+                for (FichaTablero c : f.centradas) {
+                    if (c.value == 0 && !cambiada) {
+                        f.alCentro(c, f);
+                        cambiada = true;
+                        vecindad(dimension);
+                    }
+                }
+                cambiada = false;
+            }
+        }
+    }
+
 
     public FichaTablero calcularCasillaVacia(FichaRotatoria lanzada, double distance){
         FichaTablero ficha = fichas.get(0);
@@ -118,37 +193,11 @@ public class Casilla extends Actor {
             if(distFicha < distCentral && distFicha < distance){
                 ficha = f;
                 distance = distFicha;
-            }else if(distFicha <= distCentral && distFicha > distance && ficha.value == 0){
+            }else if(distFicha < distCentral && distFicha > distance && ficha.value == 0){
                 return ficha;
             }
         }
         return ficha;
-    }
-
-    public FichaTablero haciaCentro(FichaTablero aMover, double distance){
-        vecindad(fichas);
-        FichaTablero ficha = fichas.get(0);
-        double xCentral = fichas.get(0).getPosition().x;
-        double yCentral = fichas.get(0).getPosition().y;
-        double distCentral = Math.sqrt(Math.pow(aMover.getX() - xCentral, 2) + (Math.pow(aMover.getY() - yCentral, 2)));
-
-        if(ficha.value == 0 && distCentral < 1.5f){
-            return ficha;
-        }else {
-            System.out.print("E");
-            for (FichaTablero f : fichas) {
-                double x = f.getPosition().x;
-                double y = f.getPosition().y;
-                double distFicha = Math.sqrt(Math.pow(aMover.getX() - x, 2) + (Math.pow(aMover.getY() - y, 2)));
-                if (distFicha < distCentral && distFicha < distance) {
-                    ficha = f;
-                    distance = distFicha;
-                } else if (distFicha <= distCentral && distFicha > distance && ficha.value == 0) {
-                    return ficha;
-                }
-            }
-            return ficha;
-        }
     }
 
     public void addToStage(Stage stage) {

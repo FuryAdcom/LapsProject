@@ -26,7 +26,7 @@ public class Tablero extends Stage{
     FichaRotatoria toThrow;
     FichaProxima next;
 
-    public Tablero(Viewport viewport, int dimension_casilla) {
+    public Tablero(Viewport viewport, final int dimension_casilla) {
         super(viewport);
         casilla = new Casilla(dimension_casilla);
         casilla.addToStage(this);
@@ -45,7 +45,7 @@ public class Tablero extends Stage{
         this.addListener((new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                casilla.vecindad(casilla.fichas);
+                casilla.vecindad(dimension_casilla);
                 toThrow = getToThrow();
                 next = getNext();
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
@@ -55,9 +55,10 @@ public class Tablero extends Stage{
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
-                        if(casilla.haciaCentro(changed, 100) != changed) {
+                        casilla.ordenarAlCentro(changed, dimension_casilla);
+                        /*if(casilla.haciaCentro(changed, 100) != changed) {
                             changed.alCentro(casilla.haciaCentro(changed, 100), changed);
-                        }
+                        }*/
                     }
                 }, delay);
                 Gdx.input.setInputProcessor(new InputAdapter());

@@ -18,7 +18,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 
 public class Laps extends ApplicationAdapter {
-	TableroAux tableroAux;
 	Tablero tablero;
 	public static TextureAtlas circles;
 	public static Texture back;
@@ -33,7 +32,6 @@ public class Laps extends ApplicationAdapter {
 
 		OrthographicCamera cam = new OrthographicCamera();
 		Viewport viewport = new FitViewport(CONSTANTES.ANCHO,CONSTANTES.LARGO,cam);
-		tableroAux = new TableroAux(viewport,8);
 		tablero = new Tablero(viewport,8);
 		Gdx.input.setInputProcessor(tablero);
 	}
@@ -45,7 +43,6 @@ public class Laps extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(back, 0 , 0, Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight()+1);
 		batch.end();
-		tableroAux.draw();
 		tablero.act();
 		tablero.draw();
 	}
@@ -57,7 +54,6 @@ public class Laps extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		tableroAux.dispose();
 		tablero.dispose();
 		circles.dispose();
 		back.dispose();
