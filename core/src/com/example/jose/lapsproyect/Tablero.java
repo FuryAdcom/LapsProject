@@ -1,16 +1,19 @@
 package com.example.jose.lapsproyect;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.repeat;
 
 /**
  * Created by Adrian on 11/12/2017.
@@ -19,6 +22,7 @@ import java.util.Random;
 public class Tablero extends Stage{
     private Random numero;
     Casilla casilla;
+    FichaTablero changed;
     FichaRotatoria toThrow;
     FichaProxima next;
 
@@ -41,13 +45,21 @@ public class Tablero extends Stage{
         this.addListener((new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                casilla.vecindad(casilla.fichas);
                 toThrow = getToThrow();
                 next = getNext();
-
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
-                toThrow.disparar(casilla.calcularCasillaVacia(toThrow, 100), toThrow, next);
-                //toThrow.primera.unir(casilla.fichas, toThrow.primera, toThrow.primera);
-                //Perdemos el focus intencionalmente para no permitir cambio de direcciones
+                changed = casilla.calcularCasillaVacia(toThrow, 100);
+                toThrow.disparar(changed, toThrow, next);
+                float delay = 0.4f;
+                Timer.schedule(new Timer.Task(){
+                    @Override
+                    public void run() {
+                        if(casilla.haciaCentro(changed, 100) != changed) {
+                            changed.alCentro(casilla.haciaCentro(changed, 100), changed);
+                        }
+                    }
+                }, delay);
                 Gdx.input.setInputProcessor(new InputAdapter());
                 return true;
             }

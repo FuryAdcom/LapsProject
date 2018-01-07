@@ -14,7 +14,7 @@ import java.util.Random;
  */
 
 public class Casilla extends Actor {
-    protected ArrayList<FichaTablero> fichas;
+    ArrayList<FichaTablero> fichas;
     private Random random;
     private float lado;
     private float lado_ficha;
@@ -46,7 +46,7 @@ public class Casilla extends Actor {
             if(i == 0){
                 //Central
                 ficha_value = random.nextInt(4)+1;
-                ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha);
+                ficha = new FichaTablero(xMove, yMove, ficha_value, lado_ficha, false);
                 fichas.add(ficha);
             }else{
                 cantidad += 6*(dimension-i);
@@ -62,10 +62,10 @@ public class Casilla extends Actor {
                 double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
                 if(i <= 5) {
                     ficha_value = random.nextInt(4) + 1;
-                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
+                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha, false);
                     fichas.add(ficha);
                 }else {
-                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
+                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha, false);
                     fichas.add(ficha);
                 }
                 angulo += anguloSecundario;
@@ -74,21 +74,21 @@ public class Casilla extends Actor {
                 double y = yMove + (radius * Math.sin(Math.toRadians(angulo)));
                 if(i <= 5) {
                     ficha_value = random.nextInt(4) + 1;
-                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha);
+                    ficha = new FichaTablero((float) x, (float) y, ficha_value, lado_ficha, false);
                     fichas.add(ficha);
                 }else {
-                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha);
+                    ficha = new FichaTablero((float) x, (float) y, 0, lado_ficha, false);
                     fichas.add(ficha);
                 }
                 angulo += anguloSecundario;
             }
         }
-        vecindad(fichas);
     }
 
     public void vecindad(ArrayList<FichaTablero> fichas){
         double distancia = 1.3;
         for(FichaTablero f: fichas){
+            f.vista = false;
             double x = f.getPosition().x;
             double y = f.getPosition().y;
             ArrayList<FichaTablero> vecinas = new ArrayList<FichaTablero>();
@@ -97,7 +97,7 @@ public class Casilla extends Actor {
                 double x2 = cadaUna.getPosition().x;
                 double y2 = cadaUna.getPosition().y;
                 double distFicha = Math.sqrt(Math.pow(x2 - x, 2)+(Math.pow(y2 - y, 2)));
-                if(distFicha < distancia){
+                if(distFicha < distancia && distFicha != 0){
                     vecinas.add(cadaUna);
                 }
             }
@@ -122,6 +122,32 @@ public class Casilla extends Actor {
             }
         }
         return ficha;
+    }
+
+    public FichaTablero haciaCentro(FichaTablero aMover, double distance){
+        vecindad(fichas);
+        FichaTablero ficha = fichas.get(0);
+        double xCentral = fichas.get(0).getPosition().x;
+        double yCentral = fichas.get(0).getPosition().y;
+        double distCentral = Math.sqrt(Math.pow(aMover.getX() - xCentral, 2) + (Math.pow(aMover.getY() - yCentral, 2)));
+
+        if(ficha.value == 0 && distCentral < 1.5f){
+            return ficha;
+        }else {
+            System.out.print("E");
+            for (FichaTablero f : fichas) {
+                double x = f.getPosition().x;
+                double y = f.getPosition().y;
+                double distFicha = Math.sqrt(Math.pow(aMover.getX() - x, 2) + (Math.pow(aMover.getY() - y, 2)));
+                if (distFicha < distCentral && distFicha < distance) {
+                    ficha = f;
+                    distance = distFicha;
+                } else if (distFicha <= distCentral && distFicha > distance && ficha.value == 0) {
+                    return ficha;
+                }
+            }
+            return ficha;
+        }
     }
 
     public void addToStage(Stage stage) {

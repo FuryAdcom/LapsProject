@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import java.util.ArrayList;
@@ -16,11 +17,10 @@ import java.util.Random;
  */
 
 public class FichaRotatoria extends Actor {
-    public int value;
+    protected int value;
     private TextureRegion graphic;
     private Random random;
-
-    public FichaTablero primera;
+    boolean solosi;
 
     protected float lugarX;
     protected float lugarY;
@@ -46,7 +46,7 @@ public class FichaRotatoria extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(this.getPosition().x < -60) {
+        if(this.getPosition().x < -90) {
             if (Math.toRadians(angulo) <= Math.toRadians(-450)) {
                 angulo = -90;
                 double x = 4f - (3.5f * Math.cos(Math.toRadians(angulo)));
@@ -68,12 +68,10 @@ public class FichaRotatoria extends Actor {
     }
 
     public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
-        primera = targetCas;
         Vector2 targetPos = targetCas.getPosition();
-        ThrowAction throwAction = new ThrowAction(targetPos);
+        final ThrowAction throwAction = new ThrowAction(targetPos);
         throwAction.setSpeed(CONSTANTES.THROW_SPEED);
 
-        //Se posiciona y lanza la ficha, cambiando el valor del target
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(throwAction);
         sequenceAction.addAction(new Action() {
@@ -81,6 +79,8 @@ public class FichaRotatoria extends Actor {
             public boolean act(float delta) {
                 if(targetCas.value == 0) {
                     targetCas.changeValue(throwingCas.value);
+                    targetCas.vista = true;
+                    targetCas.contarIgualesAdyacentes(targetCas, targetCas);
                 }
                 return true;
             }
@@ -88,12 +88,10 @@ public class FichaRotatoria extends Actor {
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                //Delegar valor de ficha proxima
                 throwingCas.changeValue(nextCas.value);
                 int index = random.nextInt(7)+1;
                 nextCas.changeValue(index);
                 throwingCas.setPosition(-104, -104);
-                //Devolvemos el focus al Stage para poder colocar otra Casilla
                 Gdx.input.setInputProcessor(targetCas.getStage());
                 return true;
             }
