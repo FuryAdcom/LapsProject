@@ -83,6 +83,25 @@ public class Casilla extends Actor {
                 angulo += anguloSecundario;
             }
         }
+        vecindad(fichas);
+    }
+
+    public void vecindad(ArrayList<FichaTablero> fichas){
+        double distancia = 1.3;
+        for(FichaTablero f: fichas){
+            double x = f.getPosition().x;
+            double y = f.getPosition().y;
+            ArrayList<FichaTablero> vecinas = new ArrayList<FichaTablero>();
+            f.vecinas = vecinas;
+            for (FichaTablero cadaUna: fichas) {
+                double x2 = cadaUna.getPosition().x;
+                double y2 = cadaUna.getPosition().y;
+                double distFicha = Math.sqrt(Math.pow(x2 - x, 2)+(Math.pow(y2 - y, 2)));
+                if(distFicha < distancia){
+                    vecinas.add(cadaUna);
+                }
+            }
+        }
     }
 
     public void vecindad(ArrayList<FichaTablero> fichas){
