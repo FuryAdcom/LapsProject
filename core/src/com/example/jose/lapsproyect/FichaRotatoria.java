@@ -67,7 +67,6 @@ public class FichaRotatoria extends Actor {
     public void disparar(final FichaTablero targetCas, final FichaRotatoria throwingCas, final FichaProxima nextCas) {
         Vector2 targetPos = targetCas.getPosition();
         ThrowAction throwAction = new ThrowAction(targetPos);
-        //JoinAction joinAction;
         throwAction.setSpeed(CONSTANTES.THROW_SPEED);
 
         //Se posiciona y lanza la ficha, cambiando el valor del target
@@ -76,12 +75,14 @@ public class FichaRotatoria extends Actor {
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                targetCas.changeValue(throwingCas.value);
+                if(targetCas.value == 0) {
+                    targetCas.changeValue(throwingCas.value);
+                    targetCas.vista = true;
+                    targetCas.contarIgualesAdyacentes(targetCas, targetCas);
+                }
                 return true;
             }
         });
-        //  joinAction = new JoinAction(targetCas);
-        //  sequenceAction.addAction(joinAction);
         sequenceAction.addAction(new Action() {
             @Override
             public boolean act(float delta) {
