@@ -68,9 +68,8 @@ public class FichaTablero extends Actor {
             @Override
             public boolean act(float delta) {
                 ficha.changeValue(origin.value);
-
                 ficha.vista = true;
-                contarIgualesAdyacentes(ficha, ficha);
+                vecinasRev(ficha, ficha, ficha.value);
                 return true;
             }
         });
@@ -86,7 +85,7 @@ public class FichaTablero extends Actor {
         this.addAction(sequenceAction);
     }
 
-    public void contarIgualesAdyacentes(FichaTablero ficha,final FichaTablero inicial){
+    public boolean contarIgualesAdyacentes(FichaTablero ficha, final FichaTablero inicial){
         for (FichaTablero v: ficha.vecinas) {
             if (v.value == ficha.value && comprobar(v, auxiliar) && !v.vista){
                 v.vista = true;
@@ -95,28 +94,19 @@ public class FichaTablero extends Actor {
             }
         }
         if(ficha == inicial && auxiliar.size() >= 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public void vecinasRev(FichaTablero ficha, FichaTablero inicial, int valorInicial){
+        if(contarIgualesAdyacentes(ficha, inicial)) {
             for (FichaTablero f : auxiliar) {
                 f.unir(inicial, f);
             }
-            int valor = ficha.value;
-            vecinasNoVistas(ficha, valor);
             auxiliar = new ArrayList<FichaTablero>();
-        }
-    }
-
-    public void vecinasNoVistas(FichaTablero ficha, int valorInicial){
-        for (FichaTablero v: ficha.vecinas) {
-            if (v.value == valorInicial && comprobar(v, auxiliar) && v.vista){
-                v.vista = false;
-                System.out.print(v.value+" to ");
-                v.changeValue(0);
-                System.out.print(v.value+"/");
-                vecinasNoVistas(v, valorInicial);
-            }
-        }
             ficha.changeValue(valorInicial + 1);
-            System.out.print(" Valor: "+ficha.value);
-
+        }
     }
 
     public void unir(final FichaTablero ficha, final FichaTablero aUnir){
@@ -130,6 +120,7 @@ public class FichaTablero extends Actor {
             @Override
             public boolean act(float delta) {
                 aUnir.setPosition(posInicial.x, posInicial.y);
+                aUnir.changeValue(0);
                 Gdx.input.setInputProcessor(ficha.getStage());
                 return true;
             }

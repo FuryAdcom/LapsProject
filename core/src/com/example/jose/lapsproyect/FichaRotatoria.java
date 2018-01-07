@@ -78,7 +78,7 @@ public class FichaRotatoria extends Actor {
                 if(targetCas.value == 0) {
                     targetCas.changeValue(throwingCas.value);
                     targetCas.vista = true;
-                    targetCas.contarIgualesAdyacentes(targetCas, targetCas);
+                    targetCas.vecinasRev(targetCas, targetCas, targetCas.value);
                 }
                 return true;
             }
