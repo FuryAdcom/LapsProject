@@ -45,7 +45,6 @@ public class Tablero extends Stage{
         this.addListener((new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                casilla.vecindad(dimension_casilla);
                 toThrow = getToThrow();
                 next = getNext();
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);

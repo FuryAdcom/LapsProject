@@ -108,6 +108,17 @@ public class Casilla extends Actor {
         haciaCentro(dimension);
     }
 
+    private boolean comprobar(FichaTablero f, ArrayList<FichaTablero> lista){
+        if(!lista.isEmpty()) {
+            for (FichaTablero ficha : lista) {
+                if (fichas.indexOf(f) == fichas.indexOf(ficha)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public void haciaCentro(int dimension) {
         int limite = dimension-1;
         for (FichaTablero f : fichas) {
@@ -124,27 +135,39 @@ public class Casilla extends Actor {
                     double y = one.getPosition().y;
                     double distFicha = Math.sqrt(Math.pow(f.getPosition().x - x, 2) + (Math.pow(f.getPosition().y - y, 2)));
                     if (distFicha > 0 && fichas.indexOf(f) < 7) {
-                        centradas.add(central);
+                        if(comprobar(central, centradas)) {
+                            centradas.add(central);
+                        }
                     } else {
                         if (centradas.isEmpty()) {
-                            centradas.add(central);
-                            central = one;
-                            distancia = distFicha;
+                            if(comprobar(central, centradas)) {
+                                centradas.add(central);
+                            }
                             limite--;
                         } else if (distFicha > 0 && distFicha <= distCentral && distFicha < distancia) {
                             central = one;
                             distancia = distFicha;
                         } else if (distFicha > 0 && distFicha <= distCentral && distFicha >= distancia) {
                             if(distFicha < distancia+0.0000001) {
-                                centradas.add(central);
-                                centradas.add(fichas.get(fichas.indexOf(one)));
+                                if(comprobar(central, centradas)) {
+                                    centradas.add(central);
+                                }
+                                if(comprobar(fichas.get(fichas.indexOf(one)), centradas)) {
+                                    centradas.add(fichas.get(fichas.indexOf(one)));
+                                }
                                 limite--;
                             }else if(distFicha+0.0000001 > Math.sqrt(Math.pow(f.getPosition().x - fichas.get(fichas.indexOf(one)+1).getPosition().x, 2) + (Math.pow(f.getPosition().y - fichas.get(fichas.indexOf(one)+1).getPosition().y, 2)))){
-                                centradas.add(fichas.get(fichas.indexOf(central)-1));
-                                centradas.add(central);
+                                if(comprobar(fichas.get(fichas.indexOf(central)-1), centradas)) {
+                                    centradas.add(fichas.get(fichas.indexOf(central)-1));
+                                }
+                                if(comprobar(central, centradas)) {
+                                    centradas.add(central);
+                                }
                                 limite--;
                             }else{
-                                centradas.add(central);
+                                if(comprobar(central, centradas)) {
+                                    centradas.add(central);
+                                }
                                 limite--;
                             }
                         }
@@ -156,10 +179,10 @@ public class Casilla extends Actor {
     }
 
     public void ordenarAlCentro(FichaTablero lanzada) {
-        /*for(FichaTablero f: fichas){
-            System.out.print("Ficha "+fichas.indexOf(f)+" vecinas: ");
-            for(FichaTablero v: f.vecinas){
-                System.out.print(fichas.indexOf(v)+" valor: "+v.value+"/ ");
+       /* for(FichaTablero f: fichas){
+            System.out.print("Ficha "+fichas.indexOf(f)+" centradas: ");
+            for(FichaTablero v: f.centradas){
+                System.out.print(fichas.indexOf(v)+" ");
             }
             System.out.print("Next-");
         }
