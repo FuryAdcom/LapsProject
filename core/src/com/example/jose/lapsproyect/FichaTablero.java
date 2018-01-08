@@ -94,6 +94,11 @@ public class FichaTablero extends Actor {
                 rotatoria.score += score;
                 ficha.changeValue(valorInicial + 1);
                 rotatoria.angulo += 45;
+            }else if(ficha.value == 7){
+                score += Math.pow(2, valorInicial)*(auxiliar.size()-1);
+                rotatoria.score += score;
+                ficha.changeValue(valorInicial);
+                rotatoria.angulo += 45;
             }
             auxiliar = new ArrayList<FichaTablero>();
         }else{
