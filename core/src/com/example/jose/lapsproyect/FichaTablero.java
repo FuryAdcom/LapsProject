@@ -65,9 +65,7 @@ public class FichaTablero extends Actor {
 
     public boolean contarIgualesAdyacentes(FichaTablero ficha, FichaTablero inicial){
         ficha.vista = true;
-        System.out.print("A ");
         for (FichaTablero v: ficha.vecinas) {
-            System.out.print(v.value+" ");
             if (v.value == ficha.value && comprobar(v, auxiliar) && !v.vista){
                 v.vista = true;
                 auxiliar.add(v);
@@ -87,7 +85,9 @@ public class FichaTablero extends Actor {
                 f.unir(f);
             }
             auxiliar = new ArrayList<FichaTablero>();
-            ficha.changeValue(valorInicial + 1);
+            if(ficha.value < 7) {
+                ficha.changeValue(valorInicial + 1);
+            }
         }
     }
 
