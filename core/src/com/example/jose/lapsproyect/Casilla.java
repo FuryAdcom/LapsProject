@@ -179,11 +179,11 @@ public class Casilla extends Actor {
         }
     }
 
-    public void ordenarAlCentro(FichaTablero lanzada) {
+    public void ordenarAlCentro(FichaTablero lanzada, FichaRotatoria rotatoria) {
         boolean cambiada = false;
         for (FichaTablero c : lanzada.centradas) {
             if (c.value == 0 && !cambiada) {
-                lanzada.alCentro(c, lanzada);
+                lanzada.alCentro(c, lanzada, rotatoria);
                 cambiada = true;
             }
         }
@@ -192,7 +192,7 @@ public class Casilla extends Actor {
             if(f.value != 0) {
                 for (FichaTablero c : f.centradas) {
                     if (c.value == 0 && !cambiada) {
-                        f.alCentro(c, f);
+                        f.alCentro(c, f, rotatoria);
                         cambiada = true;
                     }
                 }

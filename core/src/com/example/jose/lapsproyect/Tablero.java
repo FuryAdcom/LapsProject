@@ -51,13 +51,13 @@ public class Tablero extends Stage{
                 next = getNext();
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
                 changed = casilla.calcularCasillaVacia(toThrow, 100);
-                casilla.ordenarAlCentro(changed);
+                casilla.ordenarAlCentro(changed, toThrow);
                 toThrow.disparar(changed, toThrow, next);
                 float delay = 0.4f;
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
-                        casilla.ordenarAlCentro(changed);
+                        casilla.ordenarAlCentro(changed, toThrow);
                         score += changed.score;
                     }
                 }, delay);

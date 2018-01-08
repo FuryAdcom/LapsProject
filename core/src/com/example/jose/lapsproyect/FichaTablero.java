@@ -61,10 +61,10 @@ public class FichaTablero extends Actor {
         return true;
     }
 
-    public void alCentro(FichaTablero ficha, FichaTablero lanzada) {
+    public void alCentro(FichaTablero ficha, FichaTablero lanzada, FichaRotatoria rotatoria) {
         ficha.changeValue(lanzada.value);
         lanzada.changeValue(0);
-        vecinasRev(ficha, ficha, ficha.value);
+        vecinasRev(ficha, ficha, ficha.value, rotatoria);
     }
 
     public boolean contarIgualesAdyacentes(FichaTablero ficha, FichaTablero inicial){
@@ -84,16 +84,17 @@ public class FichaTablero extends Actor {
         return false;
     }
 
-    public void vecinasRev(FichaTablero ficha, FichaTablero inicial, int valorInicial){
+    public void vecinasRev(FichaTablero ficha, FichaTablero inicial, int valorInicial, FichaRotatoria rotatoria){
         if(contarIgualesAdyacentes(ficha, inicial)) {
             for (FichaTablero f : auxiliar) {
                 f.unir(f);
             }
-            auxiliar = new ArrayList<FichaTablero>();
             if(ficha.value > 0 && ficha.value < 7) {
-                score += Math.pow(2, valorInicial);
+                score += Math.pow(2, valorInicial)*(auxiliar.size()-1);
+                rotatoria.score += score;
                 ficha.changeValue(valorInicial + 1);
             }
+            auxiliar = new ArrayList<FichaTablero>();
         }else{
             for (FichaTablero f : auxiliar) {
                 f.vista = false;
