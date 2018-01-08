@@ -46,7 +46,7 @@ public class FichaTablero extends Actor {
         this.graphic = Laps.circles.findRegion(String.valueOf(value));
     }
 
-    public boolean comprobar(FichaTablero f, ArrayList<FichaTablero> lista){
+    private boolean comprobar(FichaTablero f, ArrayList<FichaTablero> lista){
         if(!lista.isEmpty()) {
             for (FichaTablero ficha : lista) {
                 if (ficha.getPosition() == f.getPosition()) {
@@ -57,9 +57,9 @@ public class FichaTablero extends Actor {
         return true;
     }
 
-    public void alCentro(FichaTablero ficha, FichaTablero origin) {
-        ficha.changeValue(origin.value);
-        origin.changeValue(0);
+    public void alCentro(FichaTablero ficha, FichaTablero lanzada) {
+        ficha.changeValue(lanzada.value);
+        lanzada.changeValue(0);
         vecinasRev(ficha, ficha, ficha.value);
     }
 
@@ -70,6 +70,7 @@ public class FichaTablero extends Actor {
                 v.vista = true;
                 auxiliar.add(v);
                 contarIgualesAdyacentes(v, inicial);
+                v.vista = false;
             }
         }
         ficha.vista = false;
@@ -85,14 +86,19 @@ public class FichaTablero extends Actor {
                 f.unir(f);
             }
             auxiliar = new ArrayList<FichaTablero>();
-            if(ficha.value < 7) {
+            if(ficha.value > 0 && ficha.value < 7) {
                 ficha.changeValue(valorInicial + 1);
             }
+        }else{
+            for (FichaTablero f : auxiliar) {
+                f.vista = false;
+            }
+            auxiliar = new ArrayList<FichaTablero>();
         }
     }
 
     public void unir(FichaTablero aUnir){
-                aUnir.changeValue(0);
-                aUnir.vista = false;
+            aUnir.changeValue(0);
+            aUnir.vista = false;
     }
 }
