@@ -77,7 +77,6 @@ public class FichaRotatoria extends Actor {
             public boolean act(float delta) {
                 if(targetCas.value == 0) {
                     targetCas.changeValue(throwingCas.value);
-                    targetCas.vista = true;
                     targetCas.vecinasRev(targetCas, targetCas, targetCas.value);
                 }
                 Gdx.input.setInputProcessor(targetCas.getStage());

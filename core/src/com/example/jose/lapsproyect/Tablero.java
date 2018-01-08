@@ -56,9 +56,7 @@ public class Tablero extends Stage{
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
-                        while(changed.contarIgualesAdyacentes(changed, changed)) {
-                            casilla.ordenarAlCentro(changed);
-                        }
+                        casilla.ordenarAlCentro(changed);
                     }
                 }, delay);
                 Gdx.input.setInputProcessor(new InputAdapter());
