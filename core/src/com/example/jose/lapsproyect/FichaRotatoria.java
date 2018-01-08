@@ -21,7 +21,7 @@ public class FichaRotatoria extends Actor {
 
     protected float lugarX;
     protected float lugarY;
-    private double angulo = -90;
+    public double angulo = -90;
     int score;
 
     public FichaRotatoria(float x, float y, int value, float lado) {
