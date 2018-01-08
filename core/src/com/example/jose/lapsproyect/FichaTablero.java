@@ -57,35 +57,14 @@ public class FichaTablero extends Actor {
         return true;
     }
 
-    public void alCentro(final FichaTablero ficha, final  FichaTablero origin){
-        Vector2 targetPos = ficha.getPosition();
-        final Vector2 posInicial = origin.getPosition();
-        ThrowAction throwAction = new ThrowAction(targetPos);
-        throwAction.setSpeed(15);
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(throwAction);
-        sequenceAction.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
-                ficha.changeValue(origin.value);
-                ficha.vista = true;
-                vecinasRev(ficha, ficha, ficha.value);
-                return true;
-            }
-        });
-        sequenceAction.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
-                origin.setPosition(posInicial.x, posInicial.y);
-                origin.changeValue(0);
-                Gdx.input.setInputProcessor(origin.getStage());
-                return true;
-            }
-        });
-        this.addAction(sequenceAction);
+    public void alCentro(FichaTablero ficha, FichaTablero origin) {
+        ficha.changeValue(origin.value);
+        origin.changeValue(0);
+        ficha.vista = true;
+        vecinasRev(ficha, ficha, ficha.value);
     }
 
-    public boolean contarIgualesAdyacentes(FichaTablero ficha, final FichaTablero inicial){
+    public boolean contarIgualesAdyacentes(FichaTablero ficha, FichaTablero inicial){
         for (FichaTablero v: ficha.vecinas) {
             if (v.value == ficha.value && comprobar(v, auxiliar) && !v.vista){
                 v.vista = true;
@@ -102,29 +81,36 @@ public class FichaTablero extends Actor {
     public void vecinasRev(FichaTablero ficha, FichaTablero inicial, int valorInicial){
         if(contarIgualesAdyacentes(ficha, inicial)) {
             for (FichaTablero f : auxiliar) {
-                f.unir(inicial, f);
+                f.unir(f);
             }
+            ficha.vista = false;
             auxiliar = new ArrayList<FichaTablero>();
             ficha.changeValue(valorInicial + 1);
+        }else {
+            ficha.vista = false;
+            adyacentesNoVistas(ficha);
+            auxiliar = new ArrayList<FichaTablero>();
+        }
+        for(FichaTablero f: ficha.centradas){
+            if (f.value == 0){
+                ficha.alCentro(f, ficha);
+            }
         }
     }
 
-    public void unir(final FichaTablero ficha, final FichaTablero aUnir){
-        Vector2 targetPos = ficha.getPosition();
-        final Vector2 posInicial = aUnir.getPosition();
-        ThrowAction throwAction = new ThrowAction(targetPos);
-        throwAction.setSpeed(15);
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(throwAction);
-        sequenceAction.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
+    public void adyacentesNoVistas(FichaTablero ficha){
+        for (FichaTablero v: ficha.vecinas) {
+            if (v.value == ficha.value && comprobar(v, auxiliar) && v.vista){
+                v.vista = false;
+                adyacentesNoVistas(v);
+            }
+        }
+    }
+
+    public void unir(FichaTablero aUnir){
+        Vector2 posInicial = aUnir.getPosition();
                 aUnir.setPosition(posInicial.x, posInicial.y);
                 aUnir.changeValue(0);
-                Gdx.input.setInputProcessor(ficha.getStage());
-                return true;
-            }
-        });
-        this.addAction(sequenceAction);
+                aUnir.vista = false;
     }
 }

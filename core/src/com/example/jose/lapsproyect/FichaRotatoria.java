@@ -80,6 +80,7 @@ public class FichaRotatoria extends Actor {
                     targetCas.vista = true;
                     targetCas.vecinasRev(targetCas, targetCas, targetCas.value);
                 }
+                Gdx.input.setInputProcessor(targetCas.getStage());
                 return true;
             }
         });
@@ -92,7 +93,7 @@ public class FichaRotatoria extends Actor {
                 nextCas.changeValue(index);
                 throwingCas.setPosition(-104, -104);
                 //Devolvemos el focus al Stage para poder colocar otra Casilla
-                Gdx.input.setInputProcessor(targetCas.getStage());
+                Gdx.input.setInputProcessor(throwingCas.getStage());
                 return true;
             }
         });

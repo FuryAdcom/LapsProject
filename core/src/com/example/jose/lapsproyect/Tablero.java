@@ -50,15 +50,15 @@ public class Tablero extends Stage{
                 next = getNext();
                 toThrow.setPosition(toThrow.lugarX, toThrow.lugarY);
                 changed = casilla.calcularCasillaVacia(toThrow, 100);
+                casilla.ordenarAlCentro(changed);
                 toThrow.disparar(changed, toThrow, next);
                 float delay = 0.4f;
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
-                        casilla.ordenarAlCentro(changed, dimension_casilla);
-                        /*if(casilla.haciaCentro(changed, 100) != changed) {
-                            changed.alCentro(casilla.haciaCentro(changed, 100), changed);
-                        }*/
+                        while(changed.contarIgualesAdyacentes(changed, changed)) {
+                            casilla.ordenarAlCentro(changed);
+                        }
                     }
                 }, delay);
                 Gdx.input.setInputProcessor(new InputAdapter());
