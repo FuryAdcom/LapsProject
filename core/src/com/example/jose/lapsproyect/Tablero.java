@@ -21,6 +21,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.repeat;
 
 public class Tablero extends Stage{
     private Random numero;
+    int score;
     Casilla casilla;
     FichaTablero changed;
     FichaRotatoria toThrow;
@@ -31,6 +32,7 @@ public class Tablero extends Stage{
         casilla = new Casilla(dimension_casilla);
         casilla.addToStage(this);
         numero = new Random();
+        score = 0;
 
         //Rotatoria
         float lado_ficha = casilla.getLado_casilla();
@@ -56,6 +58,7 @@ public class Tablero extends Stage{
                     @Override
                     public void run() {
                         casilla.ordenarAlCentro(changed);
+                        score += changed.score;
                     }
                 }, delay);
                 Gdx.input.setInputProcessor(new InputAdapter());

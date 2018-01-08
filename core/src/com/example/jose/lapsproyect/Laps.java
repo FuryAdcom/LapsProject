@@ -27,18 +27,24 @@ public class Laps extends ApplicationAdapter {
 	public static Texture back;
 	private SpriteBatch batch;
 
-    public FreeTypeFontGenerator generator;
+    public FreeTypeFontGenerator generadorScore;
     public BitmapFont score;
+    public FreeTypeFontGenerator generadorAS;
+    public  BitmapFont actualizarScore;
 
 	@Override
 	public void create () {
 		circles = new TextureAtlas(Gdx.files.internal("fichas.atlas"));
 		back = new Texture(Gdx.files.internal("Back.png"));
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AbcariCircle Wide.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parametro = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        generadorScore = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AbcariCircle Wide.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroScore = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parametroScore.size = 22;
+        score = generadorScore.generateFont(parametroScore);
 
-        parametro.size = 22;
-        score = generator.generateFont(parametro);
+        generadorAS = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Aftershock Debris CondSolid.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parametroAS = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parametroScore.size = 22;
+        actualizarScore = generadorAS.generateFont(parametroAS);
 		batch = new SpriteBatch();
 
 		OrthographicCamera cam = new OrthographicCamera();
@@ -53,11 +59,13 @@ public class Laps extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(back, 0 , 0, Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight()+1);
-		score.draw(batch, "SCORE", Gdx.graphics.getWidth()/2 - 120, Gdx.graphics.getHeight()-110);
-		score.getData().setScale(2f, 0.9f);
+        score.draw(batch, "SCORE", Gdx.graphics.getWidth()/2 - 120, Gdx.graphics.getHeight()-110);
+        score.getData().setScale(2f, 0.9f);
+        actualizarScore.draw(batch, Integer.toString(tablero.score), Gdx.graphics.getWidth()/2 - 20, Gdx.graphics.getHeight()-140);
+        actualizarScore.getData().setScale(2f, 1);
         batch.end();
-		tablero.act();
-		tablero.draw();
+        tablero.act();
+        tablero.draw();
 	}
 
 	@Override

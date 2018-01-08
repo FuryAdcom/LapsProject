@@ -24,6 +24,7 @@ public class Casilla extends Actor {
     TextureRegion casilla_border;
     private double angulo = -90;
     private double anguloSecundario = -60;
+    int score;
 
     public Casilla(int dimension) {
         casilla_border = Laps.circles.findRegion("table_cell");
@@ -179,14 +180,6 @@ public class Casilla extends Actor {
     }
 
     public void ordenarAlCentro(FichaTablero lanzada) {
-       /* for(FichaTablero f: fichas){
-            System.out.print("Ficha "+fichas.indexOf(f)+" centradas: ");
-            for(FichaTablero v: f.centradas){
-                System.out.print(fichas.indexOf(v)+" ");
-            }
-            System.out.print("Next-");
-        }
-        System.out.print("No hay mas ");*/
         boolean cambiada = false;
         for (FichaTablero c : lanzada.centradas) {
             if (c.value == 0 && !cambiada) {

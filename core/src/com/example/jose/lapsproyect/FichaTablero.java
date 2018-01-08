@@ -2,7 +2,9 @@ package com.example.jose.lapsproyect;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,12 +24,14 @@ public class FichaTablero extends Actor {
     protected int value;
     protected boolean vista;
     private TextureRegion graphic;
+    int score;
 
     public FichaTablero(float x, float y, int value, float lado, boolean vista) {
         this.value = value;
         this.vista = vista;
 
         graphic = Laps.circles.findRegion(String.valueOf(value));
+
 
         this.setBounds(x,y,lado,lado);
     }
@@ -87,6 +91,7 @@ public class FichaTablero extends Actor {
             }
             auxiliar = new ArrayList<FichaTablero>();
             if(ficha.value > 0 && ficha.value < 7) {
+                score += Math.pow(2, valorInicial);
                 ficha.changeValue(valorInicial + 1);
             }
         }else{
