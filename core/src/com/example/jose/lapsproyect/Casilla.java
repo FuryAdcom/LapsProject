@@ -24,7 +24,6 @@ public class Casilla extends Actor {
     TextureRegion casilla_border;
     private double angulo = -90;
     private double anguloSecundario = -60;
-    int score;
 
     public Casilla(int dimension) {
         casilla_border = Laps.circles.findRegion("table_cell");

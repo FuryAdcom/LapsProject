@@ -38,12 +38,12 @@ public class Laps extends ApplicationAdapter {
 		back = new Texture(Gdx.files.internal("Back.png"));
         generadorScore = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AbcariCircle Wide.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parametroScore = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parametroScore.size = 22;
+        parametroScore.size = 40;
         score = generadorScore.generateFont(parametroScore);
 
         generadorAS = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Aftershock Debris CondSolid.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parametroAS = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parametroScore.size = 22;
+        parametroAS.size = 30;
         actualizarScore = generadorAS.generateFont(parametroAS);
 		batch = new SpriteBatch();
 
@@ -59,10 +59,9 @@ public class Laps extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(back, 0 , 0, Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight()+1);
-        score.draw(batch, "SCORE", Gdx.graphics.getWidth()/2 - 120, Gdx.graphics.getHeight()-110);
-        score.getData().setScale(2f, 0.9f);
-        actualizarScore.draw(batch, Integer.toString(tablero.score), Gdx.graphics.getWidth()/2 - 20, Gdx.graphics.getHeight()-140);
-        actualizarScore.getData().setScale(2f, 1);
+        score.draw(batch, "SCORE", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2+Gdx.graphics.getHeight()/4+20);
+        actualizarScore.draw(batch, Integer.toString(tablero.score), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2+Gdx.graphics.getHeight()/4-40);
+        actualizarScore.getData().setScale(2, 1);
         batch.end();
         tablero.act();
         tablero.draw();
